@@ -1,0 +1,96 @@
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-label {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.checkbox-row input {
+  width: auto;
+}
+
+.error {
+  color: var(--danger);
+  font-size: 11px;
+  margin: 0;
+}
+
+.success {
+  color: var(--success);
+  font-size: 11px;
+  margin: 0;
+}
+
+.danger-zone {
+  border-color: var(--danger);
+}
+
+.block-add-row {
+  display: flex;
+  gap: 8px;
+}
+
+.block-add-row input {
+  flex: 1;
+}
+
+.blocked-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.blocked-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 10px;
+}
+
+.blocked-domain-name {
+  color: var(--text);
+  font-size: 12.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.blocked-remove-btn {
+  flex-shrink: 0;
+  color: var(--danger);
+}
+
+.blocked-remove-btn:hover {
+  color: var(--nord6);
+}
+
+.saved-indicator {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--success);
+  color: var(--nord0);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}

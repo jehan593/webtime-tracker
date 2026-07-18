@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Nord Time Tracker</title>
+    <link rel="stylesheet" href="common/nord.css" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="popup">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-dot"></span>
+          Time Tracker
+        </div>
+        <span class="today-label">Today</span>
+      </header>
+
+      <section class="tabs">
+        <button id="tabNormalBtn" class="tab active"></button>
+        <button id="tabPrivateBtn" class="tab"></button>
+      </section>
+
+      <div id="normalPane" class="pane">
+        <div class="pane-controls">
+          <span class="total" id="normalTotal"></span>
+        </div>
+        <div id="normalList" class="stat-list"></div>
+        <p id="normalEmpty" class="muted empty" hidden>No browsing tracked yet today.</p>
+      </div>
+
+      <div id="privatePane" class="pane" hidden>
+        <p class="private-note">
+          Private-window time is kept in memory only and is never written to disk. It's
+          cleared automatically as soon as your last private window closes.
+        </p>
+        <div class="pane-controls">
+          <span class="badge private" id="privateBadge"></span>
+          <span class="total" id="privateTotal"></span>
+        </div>
+        <div id="privateList" class="stat-list"></div>
+        <p id="privateEmpty" class="muted empty" hidden>No private browsing tracked right now.</p>
+      </div>
+
+      <footer class="footer">
+        <button id="dashboardBtn" class="link-btn primary-link"></button>
+        <button id="optionsBtn" class="link-btn"></button>
+      </footer>
+    </div>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

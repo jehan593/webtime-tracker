@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Nord Time Tracker — Settings</title>
+    <link rel="stylesheet" href="common/nord.css" />
+    <link rel="stylesheet" href="common/page.css" />
+    <link rel="stylesheet" href="common/challenge.css" />
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="page-header">
+        <div class="brand">
+          <span class="brand-dot"></span>
+          Nord Time Tracker — Settings
+        </div>
+        <button id="dashboardBtn" class="link-btn"></button>
+      </header>
+
+      <section class="card">
+        <h2>Tracking</h2>
+        <label class="checkbox-row">
+          <input type="checkbox" id="pauseWhenIdleCheckbox" />
+          Pause tracking while the computer is idle or locked
+        </label>
+      </section>
+
+      <section class="card">
+        <h2>Website blocking</h2>
+        <label class="checkbox-row">
+          <input type="checkbox" id="blockingEnabledCheckbox" />
+          Blocking enabled
+        </label>
+
+        <div class="block-add-row">
+          <input type="text" id="blockSiteInput" placeholder="example.com" autocomplete="off" />
+          <button id="blockSiteBtn" class="primary">Block site</button>
+        </div>
+        <p id="blockError" class="error" hidden></p>
+
+        <div id="blockedList" class="blocked-list"></div>
+        <p id="blockedEmpty" class="muted empty" hidden>No sites blocked yet.</p>
+
+        <p class="hint">
+          Adding a site is instant. Removing one — or turning blocking off — asks you to
+          solve a quick math problem first, so it's not a one-click undo in a weak moment.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Incognito &amp; private windows</h2>
+        <p>
+          Time spent in incognito windows is tracked separately and kept only in memory
+          (<code>chrome.storage.session</code>) — it is never written to disk, and it's cleared
+          out as soon as your last private window closes, even if regular Chrome windows stay
+          open. To let this extension see incognito tabs at all, Chrome requires you to explicitly
+          opt in:
+        </p>
+        <ol>
+          <li>Open <code>chrome://extensions</code></li>
+          <li>Find <strong>Nord Time Tracker</strong> and click <strong>Details</strong></li>
+          <li>Enable <strong>Allow in Incognito</strong></li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2>Font</h2>
+        <p>
+          The interface is styled with <strong>Martian Mono Nerd Font</strong>. Install it locally
+          for the full look — the UI falls back to plain Martian Mono or a system monospace font
+          otherwise, so it stays readable either way.
+        </p>
+      </section>
+
+      <section class="card danger-zone">
+        <h2>Reset</h2>
+        <p class="hint">Deletes all tracked browsing history and blocked sites. This cannot be undone.</p>
+        <button id="resetBtn" class="danger">Reset all data</button>
+      </section>
+
+      <p class="saved-indicator" id="savedIndicator" hidden>Saved</p>
+    </div>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

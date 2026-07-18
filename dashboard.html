@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Nord Time Tracker — Dashboard</title>
+    <link rel="stylesheet" href="common/nord.css" />
+    <link rel="stylesheet" href="common/charts.css" />
+    <link rel="stylesheet" href="common/page.css" />
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="page-header">
+        <div class="brand">
+          <span class="brand-dot"></span>
+          Nord Time Tracker — Dashboard
+        </div>
+        <button id="optionsBtn" class="link-btn"></button>
+      </header>
+
+      <div class="filter-row" id="filterRow">
+        <button class="filter-btn" data-range="today">Today</button>
+        <button class="filter-btn" data-range="7d">7 days</button>
+        <button class="filter-btn active" data-range="30d">30 days</button>
+        <button class="filter-btn" data-range="all">All time</button>
+      </div>
+
+      <section class="kpi-row">
+        <div class="kpi-tile">
+          <span class="kpi-label">Total time</span>
+          <span class="kpi-value" id="kpiTotal">—</span>
+        </div>
+        <div class="kpi-tile">
+          <span class="kpi-label">Top site</span>
+          <span class="kpi-value kpi-value-text" id="kpiTop">—</span>
+        </div>
+        <div class="kpi-tile">
+          <span class="kpi-label">Active days</span>
+          <span class="kpi-value" id="kpiActiveDays">—</span>
+        </div>
+        <div class="kpi-tile">
+          <span class="kpi-label">Daily average</span>
+          <span class="kpi-value" id="kpiAverage">—</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Time tracked per day</h2>
+        <div id="trendChart"></div>
+        <p id="trendEmpty" class="muted empty" hidden>No browsing tracked in this range.</p>
+      </section>
+
+      <section class="grid-2">
+        <div class="card">
+          <h2>Sites by time</h2>
+          <div id="rankedList" class="stat-list stat-list-tall"></div>
+          <p id="rankedEmpty" class="muted empty" hidden>No browsing tracked in this range.</p>
+        </div>
+
+        <div class="card">
+          <h2>Share of time</h2>
+          <div id="shareBar" class="share-bar"></div>
+          <div id="shareLegend" class="legend"></div>
+          <p id="shareEmpty" class="muted empty" hidden>No browsing tracked in this range.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>
+          Private session
+          <span class="badge private" id="privateBadge"></span>
+        </h2>
+        <p class="private-note">
+          Private-window time is kept in memory only, never written to disk, and clears
+          automatically as soon as your last private window closes. It isn't affected by
+          the date filter above — it only ever shows the current session.
+        </p>
+        <div class="pane-controls">
+          <span class="total" id="privateTotal"></span>
+        </div>
+        <div id="privateList" class="stat-list"></div>
+        <p id="privateEmpty" class="muted empty" hidden>No private browsing tracked right now.</p>
+      </section>
+    </div>
+
+    <script type="module" src="dashboard.js"></script>
+  </body>
+</html>

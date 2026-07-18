@@ -1,0 +1,43 @@
+.blocked-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.blocked-icon {
+  width: 56px;
+  height: 56px;
+  color: var(--danger);
+  margin-bottom: 6px;
+}
+
+.blocked-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.blocked-page h1 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--text);
+}
+
+.blocked-domain {
+  font-size: 17px;
+  color: var(--accent);
+  font-weight: 600;
+  margin: 0;
+  word-break: break-word;
+}
+
+.blocked-sub {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin: 0;
+  max-width: 320px;
+}

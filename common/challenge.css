@@ -1,0 +1,62 @@
+.challenge-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(46, 52, 64, 0.75);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.challenge-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 26px 26px 20px;
+  width: min(320px, 90vw);
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.challenge-card h3 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.challenge-message {
+  margin: 0 0 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.challenge-question {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 16px;
+  letter-spacing: 0.02em;
+  font-variant-numeric: proportional-nums;
+}
+
+.challenge-input {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.challenge-error {
+  color: var(--danger);
+  font-size: 11px;
+  margin: 0 0 8px;
+}
+
+.challenge-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+}
