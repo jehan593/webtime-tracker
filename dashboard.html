@@ -19,10 +19,16 @@
       </header>
 
       <div class="filter-row" id="filterRow">
-        <button class="filter-btn" data-range="today">Today</button>
+        <button class="filter-btn active" data-range="today">Daily</button>
         <button class="filter-btn" data-range="7d">7 days</button>
-        <button class="filter-btn active" data-range="30d">30 days</button>
+        <button class="filter-btn" data-range="30d">30 days</button>
         <button class="filter-btn" data-range="all">All time</button>
+      </div>
+
+      <div class="day-nav" id="dayNav">
+        <button type="button" class="day-nav-btn" id="prevDayBtn" aria-label="Previous day">‹</button>
+        <input type="date" id="dayPicker" class="day-picker" />
+        <button type="button" class="day-nav-btn" id="nextDayBtn" aria-label="Next day">›</button>
       </div>
 
       <section class="kpi-row">

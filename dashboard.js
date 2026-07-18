@@ -8,7 +8,7 @@ import {
   sortedEntries,
   totalSeconds,
 } from "./common/storage.js";
-import { dateKey, offsetDateKey, formatDuration } from "./common/util.js";
+import { dateKey, offsetDateKey, shiftDateKey, formatDuration } from "./common/util.js";
 import { icons } from "./common/icons.js";
 import { renderRankedBars, renderTrendChart, renderShareBar } from "./common/charts.js";
 import { colorForDomain, OTHER_COLOR } from "./common/palette.js";
@@ -20,8 +20,12 @@ const MAX_TREND_BARS = 60;
 el("optionsBtn").innerHTML = `${icons.gear} Options`;
 el("privateBadge").innerHTML = `${icons.mask} This session`;
 
+// The day the "Daily" filter is currently showing. Defaults to today and
+// moves via the prev/next arrows or the date picker in #dayNav.
+let selectedDay = dateKey();
+
 async function keysForRange(range) {
-  if (range === "today") return [dateKey()];
+  if (range === "today") return [selectedDay];
   if (range === "7d") return Array.from({ length: 7 }, (_, i) => offsetDateKey(6 - i));
   if (range === "30d") return Array.from({ length: 30 }, (_, i) => offsetDateKey(29 - i));
   // all time
@@ -64,18 +68,52 @@ async function renderPrivateSection() {
   renderRankedBars(el("privateList"), el("privateEmpty"), entries, colorForDomain, visits);
 }
 
+function updateDayNav() {
+  el("dayPicker").value = selectedDay;
+  el("nextDayBtn").disabled = selectedDay >= dateKey();
+}
+
 function wireFilterRow() {
   const buttons = [...document.querySelectorAll(".filter-btn")];
+  const dayNav = el("dayNav");
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
       buttons.forEach((b) => b.classList.toggle("active", b === btn));
+      const isDaily = btn.dataset.range === "today";
+      dayNav.classList.toggle("day-nav-hidden", !isDaily);
+      if (isDaily) {
+        selectedDay = dateKey();
+        updateDayNav();
+      }
       renderForRange(btn.dataset.range);
     });
+  });
+
+  el("prevDayBtn").addEventListener("click", () => {
+    selectedDay = shiftDateKey(selectedDay, -1);
+    updateDayNav();
+    renderForRange("today");
+  });
+  el("nextDayBtn").addEventListener("click", () => {
+    if (selectedDay >= dateKey()) return;
+    selectedDay = shiftDateKey(selectedDay, 1);
+    updateDayNav();
+    renderForRange("today");
+  });
+  el("dayPicker").addEventListener("change", () => {
+    const picked = el("dayPicker").value || dateKey();
+    // The `max` attribute keeps the native picker UI from offering future
+    // dates, but doesn't stop a typed value, so clamp defensively here too.
+    selectedDay = picked > dateKey() ? dateKey() : picked;
+    updateDayNav();
+    renderForRange("today");
   });
 }
 
 async function init() {
   el("optionsBtn").addEventListener("click", () => chrome.runtime.openOptionsPage());
+  el("dayPicker").max = dateKey();
+  updateDayNav();
   wireFilterRow();
   const activeBtn = document.querySelector(".filter-btn.active") || document.querySelector(".filter-btn");
   await Promise.all([renderForRange(activeBtn.dataset.range), renderPrivateSection()]);

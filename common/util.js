@@ -23,6 +23,13 @@ export function offsetDateKey(daysAgo) {
   return dateKey(d);
 }
 
+export function shiftDateKey(key, deltaDays) {
+  const [y, m, d] = key.split("-").map(Number);
+  const date = new Date(y, m - 1, d);
+  date.setDate(date.getDate() + deltaDays);
+  return dateKey(date);
+}
+
 export function formatDuration(totalSeconds) {
   const s = Math.max(0, Math.round(totalSeconds));
   const h = Math.floor(s / 3600);

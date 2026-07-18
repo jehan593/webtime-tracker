@@ -23,6 +23,51 @@
   font-weight: 600;
 }
 
+.day-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+}
+
+/* visibility (not display) so the row keeps reserving its height, and other
+   tabs don't shift content up/down when the nav disappears. */
+.day-nav.day-nav-hidden {
+  visibility: hidden;
+}
+
+.day-nav-btn {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  font-size: 15px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.day-picker {
+  /* Tells the browser to draw its native calendar icon/popup in a dark
+     palette so it doesn't flash white against the Nord dark theme. */
+  color-scheme: dark;
+  background: var(--bg-raised);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 12px;
+  outline: none;
+}
+
+.day-picker:focus {
+  border-color: var(--accent);
+}
+
 .kpi-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
