@@ -10,9 +10,9 @@ import { syncRules } from "./common/blocklist.js";
 // restart never loses more than the last few seconds.
 //
 // Pause state is recomputed fresh on every call to refreshActive from two
-// inputs - system idle state and window focus - rather than toggled
+// inputs - screen lock state and window focus - rather than toggled
 // piecemeal by individual event handlers, so there's a single source of
-// truth and no risk of a stale "paused" flag surviving a focus/idle
+// truth and no risk of a stale "paused" flag surviving a focus/lock
 // transition.
 
 let activeTabId = null;
@@ -101,7 +101,10 @@ chrome.windows.onFocusChanged.addListener(() => {
 });
 
 chrome.idle.onStateChanged.addListener((state) => {
-  systemIdle = state !== "active";
+  // Only treat an actual screen lock as "idle" for pausing purposes - mere
+  // mouse/keyboard inactivity ("idle" state) shouldn't stop the clock, since
+  // e.g. watching a video or listening to audio involves no input at all.
+  systemIdle = state === "locked";
   refreshActive();
 });
 

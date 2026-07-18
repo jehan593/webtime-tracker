@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Nord Time Tracker",
+  "name": "Time Tracker",
   "version": "1.0.0",
   "description": "Tracks time spent per website and can block distracting sites. Private/incognito windows are tracked separately in memory only.",
   "incognito": "split",

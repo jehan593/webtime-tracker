@@ -1,4 +1,4 @@
-# Nord Time Tracker
+# Time Tracker
 
 A Chrome extension that tracks how much time you spend on each website, with
 private/incognito windows tracked completely separately.
@@ -6,7 +6,7 @@ private/incognito windows tracked completely separately.
 ## Features
 
 - **Per-site time tracking** — tracks the active tab in the focused window,
-  pausing automatically when the browser loses focus or the system goes idle.
+  pausing automatically when the browser loses focus or the screen locks.
 - **Private windows tracked separately** — incognito time is written to
   `chrome.storage.session` only (in-memory), never to disk. Chrome destroys
   that data as soon as your last private window closes — the incognito
@@ -36,7 +36,7 @@ Chrome extensions are blocked from incognito windows by default. To track
 private windows:
 
 1. Open `chrome://extensions`.
-2. Find **Nord Time Tracker** → **Details**.
+2. Find **Time Tracker** → **Details**.
 3. Turn on **Allow in Incognito**.
 
 Without this step, the extension simply won't run in incognito windows at
