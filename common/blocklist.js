@@ -45,9 +45,10 @@ function ruleForDomain(domain, id) {
   };
 }
 
+// Returns false if the domain was already blocked (no-op), true if it was added.
 export async function addBlockedSite(domain) {
   const sites = await getBlockedSites();
-  if (sites.includes(domain)) return;
+  if (sites.includes(domain)) return false;
   sites.push(domain);
   await chrome.storage.local.set({ [BLOCKED_SITES_KEY]: sites });
 
@@ -58,6 +59,7 @@ export async function addBlockedSite(domain) {
     await chrome.storage.local.set({ [RULE_MAP_KEY]: map });
     await chrome.declarativeNetRequest.updateDynamicRules({ addRules: [ruleForDomain(domain, id)] });
   }
+  return true;
 }
 
 export async function removeBlockedSite(domain) {

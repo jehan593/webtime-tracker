@@ -77,7 +77,12 @@ async function initBlockingSection() {
       el("blockError").hidden = false;
       return;
     }
-    await addBlockedSite(domain);
+    const added = await addBlockedSite(domain);
+    if (!added) {
+      el("blockError").textContent = `${domain} is already blocked.`;
+      el("blockError").hidden = false;
+      return;
+    }
     el("blockSiteInput").value = "";
     await renderBlockedList();
     flashSaved();
@@ -91,8 +96,11 @@ async function initBlockingSection() {
 
 function initResetSection() {
   el("resetBtn").addEventListener("click", async () => {
-    const confirmed = confirm("This deletes all tracked browsing history and blocked sites. This cannot be undone. Continue?");
-    if (!confirmed) return;
+    const ok = await showChallenge({
+      title: "Reset all data",
+      message: "This deletes all tracked browsing history and blocked sites and cannot be undone. Solve this to continue:",
+    });
+    if (!ok) return;
     await chrome.storage.local.clear();
     // declarativeNetRequest rules live outside chrome.storage, so clearing
     // storage alone would leave any active block rules orphaned with no

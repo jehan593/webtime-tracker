@@ -9,6 +9,8 @@
 
 const NORMAL_PREFIX = "normal:";
 const PRIVATE_PREFIX = "private:";
+const VISITS_NORMAL_PREFIX = "visitsNormal:";
+const VISITS_PRIVATE_PREFIX = "visitsPrivate:";
 const SETTINGS_KEY = "settings";
 
 const DEFAULT_SETTINGS = {
@@ -43,24 +45,45 @@ export async function getStats(dateKey, isPrivate) {
   return result[key] || {};
 }
 
-async function getAllNormalData() {
+// A "visit" is one continuous stretch of a domain being the active tab -
+// incremented by background.js whenever tracking starts on a domain that
+// isn't the one it was already tracking (see setActive there). Stored
+// separately from seconds so the existing seconds-keyed maps/functions don't
+// need to know about the extra field.
+export async function addVisit(dateKey, domain, isPrivate) {
+  if (!domain) return;
+  const area = isPrivate ? chrome.storage.session : chrome.storage.local;
+  const key = (isPrivate ? VISITS_PRIVATE_PREFIX : VISITS_NORMAL_PREFIX) + dateKey;
+  const existing = (await area.get(key))[key] || {};
+  existing[domain] = (existing[domain] || 0) + 1;
+  await area.set({ [key]: existing });
+}
+
+export async function getVisits(dateKey, isPrivate) {
+  const area = isPrivate ? chrome.storage.session : chrome.storage.local;
+  const key = (isPrivate ? VISITS_PRIVATE_PREFIX : VISITS_NORMAL_PREFIX) + dateKey;
+  const result = await area.get(key);
+  return result[key] || {};
+}
+
+async function getAllByPrefix(prefix) {
   const all = await chrome.storage.local.get(null);
   const byDate = {};
   for (const [k, v] of Object.entries(all)) {
-    if (k.startsWith(NORMAL_PREFIX)) byDate[k.slice(NORMAL_PREFIX.length)] = v;
+    if (k.startsWith(prefix)) byDate[k.slice(prefix.length)] = v;
   }
   return byDate;
 }
 
 export async function getAvailableNormalDateKeys() {
-  const byDate = await getAllNormalData();
+  const byDate = await getAllByPrefix(NORMAL_PREFIX);
   return Object.keys(byDate).sort().reverse();
 }
 
 // Merges stats across every key in dateKeys into one {domain: seconds} map -
 // used to total up a multi-day range (7 days, 30 days, all time) in one pass.
 export async function getStatsForKeys(dateKeys) {
-  const byDate = await getAllNormalData();
+  const byDate = await getAllByPrefix(NORMAL_PREFIX);
   const merged = {};
   for (const key of dateKeys) {
     const stats = byDate[key] || {};
@@ -71,9 +94,22 @@ export async function getStatsForKeys(dateKeys) {
   return merged;
 }
 
+// Same merge as getStatsForKeys, but for visit counts.
+export async function getVisitsForKeys(dateKeys) {
+  const byDate = await getAllByPrefix(VISITS_NORMAL_PREFIX);
+  const merged = {};
+  for (const key of dateKeys) {
+    const visits = byDate[key] || {};
+    for (const [domain, count] of Object.entries(visits)) {
+      merged[domain] = (merged[domain] || 0) + count;
+    }
+  }
+  return merged;
+}
+
 // Per-day totals for dateKeys, in the order given - used for the trend chart.
 export async function getDailyTotals(dateKeys) {
-  const byDate = await getAllNormalData();
+  const byDate = await getAllByPrefix(NORMAL_PREFIX);
   return dateKeys.map((key) => ({ key, total: totalSeconds(byDate[key] || {}) }));
 }
 

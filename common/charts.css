@@ -46,6 +46,10 @@
   cursor: pointer;
 }
 
+.chart-hit:focus {
+  outline: none;
+}
+
 .chart-hit:focus-visible {
   outline: 1px solid var(--accent);
   outline-offset: -1px;
@@ -73,6 +77,10 @@
   white-space: nowrap;
   cursor: pointer;
   min-width: 2px;
+}
+
+.share-segment:focus {
+  outline: none;
 }
 
 .share-segment:focus-visible {

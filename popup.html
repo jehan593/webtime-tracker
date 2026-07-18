@@ -13,7 +13,11 @@
           <span class="brand-dot"></span>
           Time Tracker
         </div>
-        <span class="today-label">Today</span>
+        <div class="topbar-right">
+          <span class="total" id="normalTotal"></span>
+          <span class="total private" id="privateTotal" hidden></span>
+          <span class="today-label">Today</span>
+        </div>
       </header>
 
       <section class="tabs">
@@ -22,9 +26,6 @@
       </section>
 
       <div id="normalPane" class="pane">
-        <div class="pane-controls">
-          <span class="total" id="normalTotal"></span>
-        </div>
         <div id="normalList" class="stat-list"></div>
         <p id="normalEmpty" class="muted empty" hidden>No browsing tracked yet today.</p>
       </div>
@@ -36,7 +37,6 @@
         </p>
         <div class="pane-controls">
           <span class="badge private" id="privateBadge"></span>
-          <span class="total" id="privateTotal"></span>
         </div>
         <div id="privateList" class="stat-list"></div>
         <p id="privateEmpty" class="muted empty" hidden>No private browsing tracked right now.</p>

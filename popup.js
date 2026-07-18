@@ -1,11 +1,10 @@
-import { getStats, sortedEntries, totalSeconds } from "./common/storage.js";
+import { getStats, getVisits, sortedEntries, totalSeconds } from "./common/storage.js";
 import { dateKey, formatDuration } from "./common/util.js";
 import { icons } from "./common/icons.js";
 import { renderRankedBars } from "./common/charts.js";
+import { colorForDomain } from "./common/palette.js";
 
 const el = (id) => document.getElementById(id);
-const ACCENT = "#88c0d0"; // --accent / nord8
-const PRIVATE_ACCENT = "#b48ead"; // --private / nord15
 
 el("dashboardBtn").innerHTML = `${icons.clock} Dashboard`;
 el("optionsBtn").innerHTML = `${icons.gear} Options`;
@@ -19,19 +18,21 @@ function switchTab(which) {
   el("tabPrivateBtn").classList.toggle("active", !normal);
   el("normalPane").hidden = !normal;
   el("privatePane").hidden = normal;
+  el("normalTotal").hidden = !normal;
+  el("privateTotal").hidden = normal;
   if (!normal) renderPrivatePane();
 }
 
 async function renderNormalPane() {
-  const stats = await getStats(dateKey(), false);
+  const [stats, visits] = await Promise.all([getStats(dateKey(), false), getVisits(dateKey(), false)]);
   el("normalTotal").textContent = formatDuration(totalSeconds(stats));
-  renderRankedBars(el("normalList"), el("normalEmpty"), sortedEntries(stats), ACCENT);
+  renderRankedBars(el("normalList"), el("normalEmpty"), sortedEntries(stats), colorForDomain, visits);
 }
 
 async function renderPrivatePane() {
-  const stats = await getStats(dateKey(), true);
+  const [stats, visits] = await Promise.all([getStats(dateKey(), true), getVisits(dateKey(), true)]);
   el("privateTotal").textContent = formatDuration(totalSeconds(stats));
-  renderRankedBars(el("privateList"), el("privateEmpty"), sortedEntries(stats), PRIVATE_ACCENT);
+  renderRankedBars(el("privateList"), el("privateEmpty"), sortedEntries(stats), colorForDomain, visits);
 }
 
 async function init() {

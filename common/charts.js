@@ -48,21 +48,36 @@ function wireHover(el, htmlFn) {
 
 // -- ranked magnitude bar list (one series -> one accent hue) --------------
 
-export function renderRankedBars(container, emptyNode, entries, accent) {
+// colorOf: domain -> hex, e.g. colorForDomain from common/palette.js. Each
+// row gets its own hue instead of one flat accent for the whole list, so
+// rows are distinguishable at a glance and the color repeats consistently
+// wherever that domain shows up (ranked list, share bar, legend).
+export function renderRankedBars(container, emptyNode, entries, colorOf, visits = {}) {
   emptyNode.hidden = entries.length > 0;
   container.innerHTML = "";
   if (entries.length === 0) return;
   const max = entries[0][1];
   for (const [domain, seconds] of entries) {
     const pct = Math.max(4, Math.round((seconds / max) * 100));
+    const color = colorOf(domain);
+    const visitCount = visits[domain] || 0;
+    // Duration stays neutral/muted; visit count is tinted with the same
+    // color as the magnitude bar, so color consistently means "how often"
+    // while the bar/muted-time pairing means "how much".
+    const visitEl = visitCount
+      ? `<span class="stat-visits" style="color:${color}">${visitCount} visit${visitCount === 1 ? "" : "s"}</span>`
+      : "";
     const row = document.createElement("div");
     row.className = "stat-row";
     row.innerHTML = `
       <div class="stat-row-top">
         <span class="stat-domain" title="${escapeHtml(domain)}">${escapeHtml(domain)}</span>
-        <span class="stat-time">${formatDuration(seconds)}</span>
+        <span class="stat-meta">
+          <span class="stat-time">${formatDuration(seconds)}</span>
+          ${visitEl}
+        </span>
       </div>
-      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${accent}"></div></div>`;
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>`;
     container.appendChild(row);
   }
 }

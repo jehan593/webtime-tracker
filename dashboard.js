@@ -1,6 +1,8 @@
 import {
   getStats,
   getStatsForKeys,
+  getVisits,
+  getVisitsForKeys,
   getDailyTotals,
   getAvailableNormalDateKeys,
   sortedEntries,
@@ -12,8 +14,7 @@ import { renderRankedBars, renderTrendChart, renderShareBar } from "./common/cha
 import { colorForDomain, OTHER_COLOR } from "./common/palette.js";
 
 const el = (id) => document.getElementById(id);
-const ACCENT = "#88c0d0"; // --accent / nord8
-const PRIVATE_ACCENT = "#b48ead"; // --private / nord15
+const ACCENT = "#88c0d0"; // --accent / nord8, used only for the single-series trend chart
 const MAX_TREND_BARS = 60;
 
 el("optionsBtn").innerHTML = `${icons.gear} Options`;
@@ -30,7 +31,11 @@ async function keysForRange(range) {
 
 async function renderForRange(range) {
   const keys = await keysForRange(range);
-  const [stats, dailyTotals] = await Promise.all([getStatsForKeys(keys), getDailyTotals(keys)]);
+  const [stats, visits, dailyTotals] = await Promise.all([
+    getStatsForKeys(keys),
+    getVisitsForKeys(keys),
+    getDailyTotals(keys),
+  ]);
   const entries = sortedEntries(stats);
   const total = totalSeconds(stats);
   const activeDays = dailyTotals.filter((d) => d.total > 0).length;
@@ -42,9 +47,10 @@ async function renderForRange(range) {
 
   const trendData = dailyTotals.length > MAX_TREND_BARS ? dailyTotals.slice(-MAX_TREND_BARS) : dailyTotals;
   renderTrendChart(el("trendChart"), trendData, ACCENT);
+  el("trendChart").hidden = total === 0;
   el("trendEmpty").hidden = total > 0;
 
-  renderRankedBars(el("rankedList"), el("rankedEmpty"), entries, ACCENT);
+  renderRankedBars(el("rankedList"), el("rankedEmpty"), entries, colorForDomain, visits);
 
   renderShareBar(el("shareBar"), el("shareLegend"), entries, colorForDomain, OTHER_COLOR);
   el("shareEmpty").hidden = entries.length > 0;
@@ -52,10 +58,10 @@ async function renderForRange(range) {
 }
 
 async function renderPrivateSection() {
-  const stats = await getStats(dateKey(), true);
+  const [stats, visits] = await Promise.all([getStats(dateKey(), true), getVisits(dateKey(), true)]);
   const entries = sortedEntries(stats);
   el("privateTotal").textContent = formatDuration(totalSeconds(stats));
-  renderRankedBars(el("privateList"), el("privateEmpty"), entries, PRIVATE_ACCENT);
+  renderRankedBars(el("privateList"), el("privateEmpty"), entries, colorForDomain, visits);
 }
 
 function wireFilterRow() {
