@@ -120,9 +120,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
-input[type="password"],
-input[type="text"],
-select {
+input[type="text"] {
   width: 100%;
   background: var(--bg-inset);
   color: var(--text);
@@ -133,8 +131,7 @@ select {
   outline: none;
 }
 
-input:focus,
-select:focus {
+input:focus {
   border-color: var(--accent);
 }
 

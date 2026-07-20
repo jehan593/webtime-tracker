@@ -1,14 +1,3 @@
-.form-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.field-label {
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
 .checkbox-row {
   display: flex;
   align-items: center;
@@ -24,12 +13,6 @@
 
 .error {
   color: var(--danger);
-  font-size: 11px;
-  margin: 0;
-}
-
-.success {
-  color: var(--success);
   font-size: 11px;
   margin: 0;
 }

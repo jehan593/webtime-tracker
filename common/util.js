@@ -54,9 +54,3 @@ export function normalizeDomainInput(raw) {
   if (!/^[a-z][a-z0-9+.-]*:\/\//.test(s)) s = `https://${s}`;
   return domainFromUrl(s);
 }
-
-export function friendlyDateLabel(key) {
-  if (key === dateKey()) return "Today";
-  if (key === offsetDateKey(1)) return "Yesterday";
-  return key;
-}
