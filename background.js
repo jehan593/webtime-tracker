@@ -156,11 +156,17 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.url) {
     await ensureRestored();
     const domain = domainFromUrl(changeInfo.url);
-    if (domain && domain !== tabDomains.get(tabId)) {
+    const previousDomain = tabDomains.get(tabId);
+    // Record the new domain before doing any awaited work below, so a second
+    // onUpdated firing for this tab (e.g. a redirect hop, or an SPA replacing
+    // the URL right after load) can't read a stale map entry and double-count
+    // what's really one navigation as two visits.
+    tabDomains.set(tabId, domain);
+    const persisted = persistTabDomains();
+    if (domain && domain !== previousDomain) {
       await addVisit(dateKey(), domain, !!tab.incognito);
     }
-    tabDomains.set(tabId, domain);
-    await persistTabDomains();
+    await persisted;
   }
 
   if (tabId === activeTabId && (changeInfo.url || changeInfo.status === "complete")) {

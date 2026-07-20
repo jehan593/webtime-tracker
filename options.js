@@ -5,7 +5,7 @@ import {
   removeBlockedSite,
   isBlockingEnabled,
   setBlockingEnabled,
-  syncRules,
+  BLOCKLIST_STORAGE_KEYS,
 } from "./common/blocklist.js";
 import { showChallenge } from "./common/challenge.js";
 import { normalizeDomainInput, escapeHtml } from "./common/util.js";
@@ -98,14 +98,15 @@ function initResetSection() {
   el("resetBtn").addEventListener("click", async () => {
     const ok = await showChallenge({
       title: "Reset all data",
-      message: "This deletes all tracked browsing history and blocked sites and cannot be undone. Solve this to continue:",
+      message: "This deletes all tracked browsing history and cannot be undone. Your blocked sites list is kept. Solve this to continue:",
     });
     if (!ok) return;
-    await chrome.storage.local.clear();
-    // declarativeNetRequest rules live outside chrome.storage, so clearing
-    // storage alone would leave any active block rules orphaned with no
-    // stored data left to manage them from - tear them down explicitly.
-    await syncRules();
+    // Wipe everything except the keys the block list owns, so blocked sites
+    // and their declarativeNetRequest rules (keyed off the preserved rule
+    // map) survive the reset untouched.
+    const all = await chrome.storage.local.get(null);
+    const keysToRemove = Object.keys(all).filter((key) => !BLOCKLIST_STORAGE_KEYS.includes(key));
+    await chrome.storage.local.remove(keysToRemove);
     location.reload();
   });
 }

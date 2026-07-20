@@ -8,6 +8,11 @@ const BLOCKING_ENABLED_KEY = "blockingEnabled"; // boolean, default true
 const RULE_MAP_KEY = "blockRuleMap"; // { [domain]: ruleId }
 const NEXT_RULE_ID_KEY = "nextBlockRuleId"; // number
 
+// All chrome.storage.local keys this module owns - exported so a "reset all
+// data" feature elsewhere can wipe everything else while leaving the block
+// list (and the dynamic rules that depend on its rule-id map) intact.
+export const BLOCKLIST_STORAGE_KEYS = [BLOCKED_SITES_KEY, BLOCKING_ENABLED_KEY, RULE_MAP_KEY, NEXT_RULE_ID_KEY];
+
 export async function getBlockedSites() {
   const { [BLOCKED_SITES_KEY]: sites } = await chrome.storage.local.get(BLOCKED_SITES_KEY);
   return sites || [];
