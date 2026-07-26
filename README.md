@@ -1,26 +1,26 @@
 # Time Tracker
 
-A Chrome extension that tracks how much time you spend on each website, with
-private/incognito windows tracked completely separately.
+A Chrome extension that tracks how much time you spend on each website and
+can block distracting sites. Private/incognito windows are tracked
+completely separately from your normal browsing.
 
 ## Features
 
-- **Per-site time tracking** — tracks the active tab in the focused window,
+- **Per-site time tracking** for the active tab in the focused window,
   pausing automatically when the browser loses focus or the screen locks.
 - **Private windows tracked separately** — incognito time is written to
-  `chrome.storage.session` only (in-memory), never to disk. Chrome destroys
-  that data as soon as your last private window closes — the incognito
-  profile is torn down at that point — even if your regular Chrome windows
-  stay open. It never mixes with your normal history.
-- **Popup shows today at a glance**; a full **Dashboard** (opens in its own
+  `chrome.storage.session` only (in-memory), never to disk. It's destroyed
+  the moment your last private window closes and never mixes with your
+  normal history.
+- **Popup** shows today at a glance; a full **Dashboard** (opens in its own
   tab) covers everything else — Today / 7 days / 30 days / All time filters,
   KPI tiles, a daily trend chart, the full ranked site list, and a
   share-of-time breakdown.
 - **Website blocking**, enforced by the browser itself via
   `declarativeNetRequest` redirect rules — no content script runs on pages
-  you visit. Adding a site to the block list is instant; removing one, or
-  turning blocking off, requires solving a short arithmetic problem first
-  (see **Blocking** below).
+  you visit. Adding a site is instant; removing one, or turning blocking
+  off, requires solving a short arithmetic problem first (see
+  **Blocking** below).
 - **Nord themed**, typeset in Martian Mono Nerd Font (falls back to Martian
   Mono, then a system monospace font, if the Nerd Font isn't installed).
 
