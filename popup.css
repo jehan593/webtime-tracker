@@ -20,8 +20,7 @@
 
 .today-label {
   font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-weight: 600;
   color: var(--text-muted);
 }
 
@@ -47,6 +46,27 @@
   background: var(--bg-raised);
   border-color: var(--border);
   color: var(--text);
+}
+
+.pane {
+  display: flex;
+  flex-direction: column;
+  height: 320px;
+  overflow: hidden;
+}
+
+.pane[hidden] {
+  display: none;
+}
+
+.pane .stat-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+}
+
+.pane .empty {
+  margin: auto;
 }
 
 .footer {

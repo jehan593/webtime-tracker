@@ -10,12 +10,10 @@ import {
 } from "./common/storage.js";
 import { dateKey, offsetDateKey, shiftDateKey, formatDuration } from "./common/util.js";
 import { icons } from "./common/icons.js";
-import { renderRankedBars, renderTrendChart, renderShareBar } from "./common/charts.js";
+import { renderRankedBars, renderShareBar } from "./common/charts.js";
 import { colorForDomain, OTHER_COLOR } from "./common/palette.js";
 
 const el = (id) => document.getElementById(id);
-const ACCENT = "#88c0d0"; // --accent / nord8, used only for the single-series trend chart
-const MAX_TREND_BARS = 60;
 
 el("optionsBtn").innerHTML = `${icons.gear} Options`;
 el("privateBadge").innerHTML = `${icons.mask} This session`;
@@ -48,11 +46,6 @@ async function renderForRange(range) {
   el("kpiTop").textContent = entries.length ? entries[0][0] : "—";
   el("kpiActiveDays").textContent = String(activeDays);
   el("kpiAverage").textContent = formatDuration(keys.length ? total / keys.length : 0);
-
-  const trendData = dailyTotals.length > MAX_TREND_BARS ? dailyTotals.slice(-MAX_TREND_BARS) : dailyTotals;
-  renderTrendChart(el("trendChart"), trendData, ACCENT);
-  el("trendChart").hidden = total === 0;
-  el("trendEmpty").hidden = total > 0;
 
   renderRankedBars(el("rankedList"), el("rankedEmpty"), entries, colorForDomain, visits);
 

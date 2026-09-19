@@ -1,5 +1,7 @@
 # Time Tracker
 
+> FYI: this project is fully vibe coded.
+
 A Chrome extension that tracks how much time you spend on each website and
 can block distracting sites. Private/incognito windows are tracked
 completely separately from your normal browsing.
@@ -14,8 +16,7 @@ completely separately from your normal browsing.
   normal history.
 - **Popup** shows today at a glance; a full **Dashboard** (opens in its own
   tab) covers everything else — Today / 7 days / 30 days / All time filters,
-  KPI tiles, a daily trend chart, the full ranked site list, and a
-  share-of-time breakdown.
+  KPI tiles, a ranked site list, and a share-of-time breakdown.
 - **Website blocking**, enforced by the browser itself via
   `declarativeNetRequest` redirect rules — no content script runs on pages
   you visit. Adding a site is instant; removing one, or turning blocking
@@ -47,11 +48,9 @@ all — nothing is tracked there, private or otherwise.
 Click **Dashboard** in the popup footer (or in the options page header) to
 open the full-page view in a new tab:
 
-- **Filter row** (Today / 7 days / 30 days / All time) scopes every chart
+- **Filter row** (Today / 7 days / 30 days / All time) scopes everything
   below it.
 - **KPI tiles** — total time, top site, active days, daily average.
-- **Trend chart** — a bar per day, sequential accent color, hover/keyboard
-  tooltips.
 - **Sites by time** — the full ranked list behind the popup's Today view.
 - **Share of time** — a single stacked bar (top 7 sites + "Other"), colored
   from a Nord-derived categorical palette. Colors are assigned per-domain by
@@ -96,7 +95,7 @@ manifest.json          MV3 manifest (split incognito, tabs/idle/alarms/storage/D
 background.js           Event-driven tracking service worker + DNR rule resync on install
 popup.html/css/js       Today's Normal/Private view + links to Dashboard/Options
 options.html/css/js     Idle-pause toggle, blocking list, reset, incognito-enable instructions
-dashboard.html/css/js   Full history view: filters, KPIs, trend + share charts
+dashboard.html/css/js   Full history view: filters, KPI tiles, ranked sites, share-of-time
 blocked.html/css/js     Informational landing page shown for a blocked navigation
 common/
   util.js                Domain/date/duration/escaping/domain-input-normalizing helpers
@@ -104,7 +103,7 @@ common/
   blocklist.js             Block list storage + declarativeNetRequest dynamic rule sync
   challenge.js              Arithmetic-problem generator + reusable unlock modal
   palette.js               Validated Nord categorical chart palette + per-domain color hashing
-  charts.js                 SVG/HTML chart primitives (ranked bars, trend chart, share bar) + tooltips
+  charts.js                 HTML chart primitives (ranked bars, share bar) + tooltips
   icons.js                  Inline SVG icon set
   nord.css                  Shared Nord palette + Martian Mono font stack + shared components
   page.css                  Shared full-page chrome for options.html/dashboard.html

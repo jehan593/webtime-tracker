@@ -1,4 +1,4 @@
-/* Chart primitives shared by dashboard.html (trend chart, share-of-time bar).
+/* Chart primitives shared by dashboard.html and the popup (share-of-time bar).
    Ranked-bar-list styling (.stat-row etc.) lives alongside its markup in
    popup.css / dashboard.css since it's plain HTML, not SVG. */
 
@@ -15,44 +15,6 @@
   pointer-events: none;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
   max-width: 220px;
-}
-
-.trend-chart {
-  width: 100%;
-  height: auto;
-  display: block;
-  overflow: visible;
-}
-
-.chart-grid {
-  stroke: var(--nord2);
-  stroke-width: 1;
-}
-
-.chart-axis-label {
-  fill: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 9px;
-}
-
-.chart-bar-label {
-  fill: var(--text);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.chart-hit {
-  cursor: pointer;
-}
-
-.chart-hit:focus {
-  outline: none;
-}
-
-.chart-hit:focus-visible {
-  outline: 1px solid var(--accent);
-  outline-offset: -1px;
 }
 
 .share-bar {

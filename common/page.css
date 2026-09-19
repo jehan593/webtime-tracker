@@ -4,10 +4,10 @@
 .page {
   max-width: 900px;
   margin: 0 auto;
-  padding: 28px 20px 60px;
+  padding: 24px 16px 60px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .page-header {
@@ -24,14 +24,12 @@
 .page-header .brand-dot {
   width: 10px;
   height: 10px;
-  box-shadow: 0 0 10px var(--accent);
 }
 
 .card {
   background: var(--bg-raised);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 18px 20px;
+  border-radius: 12px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -40,9 +38,9 @@
 .card h2 {
   margin: 0;
   font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text);
   display: flex;
   align-items: center;
   gap: 8px;

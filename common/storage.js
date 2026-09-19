@@ -107,7 +107,7 @@ export async function getVisitsForKeys(dateKeys) {
   return merged;
 }
 
-// Per-day totals for dateKeys, in the order given - used for the trend chart.
+// Per-day totals for dateKeys, in the order given - used for the active-days KPI.
 export async function getDailyTotals(dateKeys) {
   const byDate = await getAllByPrefix(NORMAL_PREFIX);
   return dateKeys.map((key) => ({ key, total: totalSeconds(byDate[key] || {}) }));
