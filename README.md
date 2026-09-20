@@ -19,9 +19,8 @@ completely separately from your normal browsing.
   KPI tiles, a ranked site list, and a share-of-time breakdown.
 - **Website blocking**, enforced by the browser itself via
   `declarativeNetRequest` redirect rules — no content script runs on pages
-  you visit. Adding a site is instant; removing one, or turning blocking
-  off, requires solving a short arithmetic problem first (see
-  **Blocking** below).
+  you visit. Add or remove sites and toggle blocking from the options page
+  (see **Blocking** below).
 - **Nord themed**, typeset in Martian Mono Nerd Font (falls back to Martian
   Mono, then a system monospace font, if the Nerd Font isn't installed).
 
@@ -69,14 +68,8 @@ Managed from the **Website blocking** card in the options page:
   local blocked page that's purely informational — no unlock control lives
   there, on purpose, so hitting a block never puts an "undo" one click away
   in the moment.
-- **Removing** a site (from the options page), or turning the
-  **Blocking enabled** toggle off, first shows a short math problem (e.g.
-  `23 × 34 + 41`, `78 + 52 − 26`) — hard enough that you can't answer it
-  reflexively, easy enough not to need a calculator. A wrong answer swaps
-  in a new problem rather than letting you retry the same one. This is
-  friction against an impulsive click, not a security boundary — anyone
-  with the "Allow in Incognito" toggle already has full access to
-  `chrome://extensions`.
+- **Removing** a site from the options page unblocks it immediately.
+  Turning the **Blocking enabled** toggle off disables blocking for all sites.
 - Blocking is enforced with `declarativeNetRequest` redirect rules, which
   the browser evaluates natively before a blocked page ever loads. No
   content script is injected into any page you visit for this.
@@ -101,13 +94,11 @@ common/
   util.js                Domain/date/duration/escaping/domain-input-normalizing helpers
   storage.js              Normal (local) vs private (session) stats storage + range aggregation
   blocklist.js             Block list storage + declarativeNetRequest dynamic rule sync
-  challenge.js              Arithmetic-problem generator + reusable unlock modal
   palette.js               Validated Nord categorical chart palette + per-domain color hashing
   charts.js                 HTML chart primitives (ranked bars, share bar) + tooltips
   icons.js                  Inline SVG icon set
   nord.css                  Shared Nord palette + Martian Mono font stack + shared components
   page.css                  Shared full-page chrome for options.html/dashboard.html
   charts.css                Chart-specific styling
-  challenge.css              Unlock-modal styling
 icons/                   Generated toolbar/store icons
 ```

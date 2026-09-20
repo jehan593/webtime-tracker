@@ -5,7 +5,6 @@
     <title>Time Tracker — Settings</title>
     <link rel="stylesheet" href="common/nord.css" />
     <link rel="stylesheet" href="common/page.css" />
-    <link rel="stylesheet" href="common/challenge.css" />
     <link rel="stylesheet" href="options.css" />
   </head>
   <body>
@@ -41,11 +40,6 @@
 
         <div id="blockedList" class="blocked-list"></div>
         <p id="blockedEmpty" class="muted empty" hidden>No sites blocked yet.</p>
-
-        <p class="hint">
-          Adding a site is instant. Removing one — or turning blocking off — asks you to
-          solve a quick math problem first, so it's not a one-click undo in a weak moment.
-        </p>
       </section>
 
       <section class="card">
@@ -75,7 +69,7 @@
 
       <section class="card danger-zone">
         <h2>Reset</h2>
-        <p class="hint">Deletes all tracked browsing history and blocked sites. This cannot be undone.</p>
+        <p class="hint">Deletes all tracked browsing history. This cannot be undone. Your blocked sites will be kept.</p>
         <button id="resetBtn" class="danger">Reset all data</button>
       </section>
 

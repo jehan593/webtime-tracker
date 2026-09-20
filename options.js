@@ -7,7 +7,6 @@ import {
   setBlockingEnabled,
   BLOCKLIST_STORAGE_KEYS,
 } from "./common/blocklist.js";
-import { showChallenge } from "./common/challenge.js";
 import { normalizeDomainInput, escapeHtml } from "./common/util.js";
 import { icons } from "./common/icons.js";
 
@@ -44,8 +43,6 @@ async function renderBlockedList() {
       <span class="blocked-domain-name" title="${escapeHtml(domain)}">${escapeHtml(domain)}</span>
       <button class="link-btn blocked-remove-btn" type="button">${icons.trash} Remove</button>`;
     row.querySelector(".blocked-remove-btn").addEventListener("click", async () => {
-      const ok = await showChallenge({ message: `Solve this to unblock ${domain}:` });
-      if (!ok) return;
       await removeBlockedSite(domain);
       await renderBlockedList();
     });
@@ -58,13 +55,6 @@ async function initBlockingSection() {
   checkbox.checked = await isBlockingEnabled();
 
   checkbox.addEventListener("change", async () => {
-    if (!checkbox.checked) {
-      const ok = await showChallenge({ message: "Solve this to turn blocking off:" });
-      if (!ok) {
-        checkbox.checked = true;
-        return;
-      }
-    }
     await setBlockingEnabled(checkbox.checked);
     flashSaved();
   });
@@ -96,10 +86,9 @@ async function initBlockingSection() {
 
 function initResetSection() {
   el("resetBtn").addEventListener("click", async () => {
-    const ok = await showChallenge({
-      title: "Reset all data",
-      message: "This deletes all tracked browsing history and cannot be undone. Your blocked sites list is kept. Solve this to continue:",
-    });
+    const ok = window.confirm(
+      "Delete all tracked browsing history? This cannot be undone. Your blocked sites will be kept."
+    );
     if (!ok) return;
     // Wipe everything except the keys the block list owns, so blocked sites
     // and their declarativeNetRequest rules (keyed off the preserved rule
